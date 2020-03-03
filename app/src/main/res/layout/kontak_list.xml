@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            android:id="@+id/tvKtp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Ktp"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:id="@+id/tvNama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Nama"
+            android:layout_below="@id/tvKtp"
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:id="@+id/tvUmur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Umur"
+            android:layout_alignParentRight="true"
+
+            android:layout_below="@id/tvKtp"
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:id="@+id/tvJenis_kelamin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Jenis_kelamin"
+            android:textSize="15sp"
+            android:layout_below="@id/tvJenis_kelamin"
+            />
+    </RelativeLayout>
+    <View
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+</LinearLayout>
