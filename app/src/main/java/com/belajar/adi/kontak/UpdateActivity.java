@@ -1,6 +1,7 @@
 package com.belajar.adi.kontak;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,15 +39,20 @@ public class UpdateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
 
+        Intent intent = getIntent();
+
+
         Button btnUpdate = findViewById(R.id.buttonUbah);
-        initDataField();
+        initDataField(intent);
         btnUpdate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                initDataField();
                 mPresenter = new Presenter();
-                Call<Value> result = mPresenter.userService().ubahUser(ktp, nama, umur, jenis_kelamin); // ini kan proses koneksi ke api
+                System.out.println("Data : "+String.format("%s:%s:%s:%s",ktpEd.getText(),namaEd.getText(),umurEd.getText()
+                        ,jenisKelaminEd.getText()));
+                Call<Value> result = mPresenter.userService()
+                        .ubahUser(ktpEd.getText().toString(),namaEd.getText().toString(),Integer.valueOf(umurEd.getText().toString()),jenisKelaminEd.getText().toString()); // ini kan proses koneksi ke api
                 result.enqueue(new Callback<Value>() {
                     @Override
                     public void onResponse(Call<Value> call, Response<Value> response) {
@@ -120,7 +126,7 @@ public class UpdateActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initDataField() {
+    private void initDataField(Intent intent) {
 
         // disni lu terima data yg dari item yg di click tadi
 
@@ -129,17 +135,20 @@ public class UpdateActivity extends AppCompatActivity {
         umurEd = findViewById(R.id.edt_umur);
         jenisKelaminEd = findViewById(R.id.edt_jenis_kelamin);
 
-        ktpEd.setText(getIntent().getStringExtra("ktp"));
-        namaEd.setText(getIntent().getStringExtra("nama"));
+        ktpEd.setText(intent.getStringExtra("ktp"));
+        namaEd.setText(intent.getStringExtra("nama"));
         //umurEd.setText(getIntent().getStringExtra("umur")); // nah ini berlaku untuk tipe data string
         //kalo tipe data nya int
-        umurEd.setText(String.valueOf(getIntent().getIntExtra("umur",0))); // ini pake ini untuk yg integer
-        jenisKelaminEd.setText(getIntent().getStringExtra("jenis_kelamin"));
+        umurEd.setText(String.valueOf(intent.getIntExtra("umur",0))); // ini pake ini untuk yg integer
+        jenisKelaminEd.setText(intent.getStringExtra("jenis_kelamin"));
         System.out.println("Ktp : "+ktpEd.getText());
         ktp = ktpEd.getText().toString();
         nama = namaEd.getText().toString();
         umur = Integer.valueOf(umurEd.getText().toString());
         jenis_kelamin = jenisKelaminEd.getText().toString();
+
+        System.out.println("Data Intent : "+String.format("%s:%s:%s:%s",ktpEd.getText(),namaEd.getText(),umurEd.getText()
+                ,jenisKelaminEd.getText()));
     }
 
 

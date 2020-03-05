@@ -8,20 +8,20 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
         <TextView
-            android:id="@+id/tvKtp"
+            android:id="@+id/tvJenis_kelamin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Ktp"
+            android:hint="Jenis Kelamin"
             android:layout_alignParentRight="true"
             android:textSize="15sp"
             android:textStyle="bold"
             />
         <TextView
-            android:id="@+id/tvNama"
+            android:id="@+id/tvKtp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Nama"
-            android:layout_below="@id/tvKtp"
+            android:hint="Ktp"
+            android:layout_below="@id/tvJenis_kelamin"
             android:textSize="15sp"
             />
 
@@ -31,18 +31,17 @@
             android:layout_height="wrap_content"
             android:hint="Umur"
             android:layout_alignParentRight="true"
-
-            android:layout_below="@id/tvKtp"
+            android:layout_below="@id/tvJenis_kelamin"
             android:textSize="15sp"
             />
 
         <TextView
-            android:id="@+id/tvJenis_kelamin"
+            android:id="@+id/tvNama"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Jenis_kelamin"
+            android:hint="Nama"
             android:textSize="15sp"
-            android:layout_below="@id/tvJenis_kelamin"
+            android:layout_below="@id/tvNama"
             />
     </RelativeLayout>
     <View

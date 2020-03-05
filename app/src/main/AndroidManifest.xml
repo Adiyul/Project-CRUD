@@ -26,7 +26,6 @@
         </activity>
         <activity android:name=".InsertActivity" />
         <activity android:name=".UpdateActivity" />
-        <activity android:name=".DeleteActivity"></activity>
     </application>
 
 </manifest>

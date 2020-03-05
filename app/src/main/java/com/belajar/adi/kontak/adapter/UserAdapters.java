@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,19 +23,21 @@ import java.util.List;
  * Created by lenovo on 2/25/2020.
  */
 
-public class UserAdapters extends RecyclerView.Adapter<UserAdapters.MyViewHolder> {
-    List<User> userList;
-
+public class UserAdapters extends RecyclerView.Adapter<UserAdapters.MyViewHolder> implements Filterable {
+    private List<User> userList;
+    List<User> filteredList;
+    public View rootView;
     public UserAdapters( List<User> userList) {
         this.userList = userList;
+        this.filteredList = userList;
         System.out.println("User List : "+userList.size());
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.kontak_list, parent, false);
-        return new UserAdapters.MyViewHolder(mView);
+        rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.kontak_list, parent, false);
+        return new UserAdapters.MyViewHolder(rootView);
     }
 
     @Override
@@ -46,12 +50,16 @@ public class UserAdapters extends RecyclerView.Adapter<UserAdapters.MyViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(holder.itemView.getContext(), userList.get(position).getKtp(), Toast.LENGTH_SHORT).show();
-                Intent mIntent = new Intent(view.getContext(), UpdateActivity.class);
+                //Toast.makeText(holder.itemView.getContext(), userList.get(position).getKtp(), Toast.LENGTH_SHORT).show();
+
+                Intent mIntent = new Intent(rootView.getContext(), UpdateActivity.class);
                 mIntent.putExtra("ktp", userList.get(position).getKtp());
+                System.out.print("Data from intent : "+mIntent.getStringExtra("ktp"));
                 mIntent.putExtra("nama", userList.get(position).getNama());
                 mIntent.putExtra("umur", Integer.valueOf(userList.get(position).getUmur()));
                 mIntent.putExtra("jenis_kelamin", userList.get(position).getJenis_kelamin());
+
+
                 view.getContext().startActivity(mIntent);
             }
         });
@@ -59,8 +67,42 @@ public class UserAdapters extends RecyclerView.Adapter<UserAdapters.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return (userList != null ? userList.size(): 0);
+        return (filteredList != null ? filteredList.size(): 0);
     }
+
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                if (charSequence == null || charSequence.length() == 0) {
+                    filteredList = userList;
+                } else {
+                    String filterPattern = charSequence.toString().toLowerCase().trim();
+                    List<User> filtered = new ArrayList<>();
+                    for (User user : userList) {
+                        if (user.getKtp().toLowerCase().contains(filterPattern) || user.getNama().toLowerCase().contains(filterPattern)  ) {
+                            filtered.add(user);
+                        }
+                    }
+
+                    filteredList  = filtered;
+                }
+                FilterResults results = new FilterResults();
+                results.values = filteredList;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredList = (ArrayList<User>) filterResults.values;
+                System.out.println("Filtered list : "+filteredList.size());
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextViewKtp, mTextViewNama, mTextViewUmur, mTextViewJenis_kelamin;
@@ -71,7 +113,6 @@ public class UserAdapters extends RecyclerView.Adapter<UserAdapters.MyViewHolder
             mTextViewNama = itemView.findViewById(R.id.tvNama);
             mTextViewUmur = itemView.findViewById(R.id.tvUmur);
             mTextViewJenis_kelamin = itemView.findViewById(R.id.tvJenis_kelamin);
-
 
         }
     }
